@@ -1,36 +1,31 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container-fluid">
-  <div class="card">
-    <div class="card-header fw-semibold">Tambah Data Siswa</div>
-    <div class="card-body">
-      <form action="{{ route('siswa.store') }}" method="POST">
-        @csrf
+<div class="modal fade" id="modalTambah" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="formTambahSiswa" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Siswa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
         <div class="mb-3">
-          <label for="nama" class="form-label">Nama Siswa</label>
-          <input type="text" name="nama" class="form-control" value="{{ old('nama') }}" required>
+          <label for="tambahNama" class="form-label">Nama</label>
+          <input type="text" id="tambahNama" class="form-control" required>
         </div>
-
         <div class="mb-3">
-          <label for="nis" class="form-label">NIS</label>
-          <input type="text" name="nis" class="form-control" value="{{ old('nis') }}" required>
+          <label for="tambahNis" class="form-label">NIS</label>
+          <input type="text" id="tambahNis" class="form-control" required>
         </div>
-
         <div class="mb-3">
-          <label for="kelas_id" class="form-label">Kelas</label>
-          <select name="kelas_id" class="form-select" required>
-            <option value="">-- Pilih Kelas --</option>
-            @foreach($kelas as $kls)
+          <label for="tambahKelas" class="form-label">Kelas</label>
+          <select id="tambahKelas" class="form-select" required>
+            @foreach ($kelas as $kls)
               <option value="{{ $kls->id }}">{{ $kls->nama }}</option>
             @endforeach
           </select>
         </div>
-
+      </div>
+      <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Simpan</button>
-        <a href="{{ route('siswa.index') }}" class="btn btn-secondary">Kembali</a>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </div>
-@endsection

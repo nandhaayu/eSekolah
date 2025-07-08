@@ -1,26 +1,15 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container-fluid">
-  <div class="card">
-    <div class="card-header fw-semibold">Detail Siswa</div>
-    <div class="card-body">
-      <table class="table table-bordered">
-        <tr>
-          <th>Nama</th>
-          <td>{{ $siswa->nama }}</td>
-        </tr>
-        <tr>
-          <th>NIS</th>
-          <td>{{ $siswa->nis }}</td>
-        </tr>
-        <tr>
-          <th>Kelas</th>
-          <td>{{ $siswa->kelas->nama ?? '-' }}</td>
-        </tr>
-      </table>
-      <a href="{{ route('siswa.index') }}" class="btn btn-secondary">Kembali</a>
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content p-3">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailModalLabel">Detail Siswa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nama:</strong> <span id="detailNama"></span></p>
+        <p><strong>NIS:</strong> <span id="detailNis"></span></p>
+        <p><strong>Kelas:</strong> <span id="detailKelas"></span></p>
+      </div>
     </div>
   </div>
 </div>
-@endsection

@@ -1,38 +1,32 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container-fluid">
-  <div class="card">
-    <div class="card-header fw-semibold">Edit Data Siswa</div>
-    <div class="card-body">
-      <form action="{{ route('siswa.update', $siswa->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-
+<div class="modal fade" id="modalEdit" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="formEditSiswa" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Siswa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editId">
         <div class="mb-3">
-          <label for="nama" class="form-label">Nama Siswa</label>
-          <input type="text" name="nama" class="form-control" value="{{ old('nama', $siswa->nama) }}" required>
+          <label for="editNama" class="form-label">Nama</label>
+          <input type="text" id="editNama" class="form-control" required>
         </div>
-
         <div class="mb-3">
-          <label for="nis" class="form-label">NIS</label>
-          <input type="text" name="nis" class="form-control" value="{{ old('nis', $siswa->nis) }}" required>
+          <label for="editNis" class="form-label">NIS</label>
+          <input type="text" id="editNis" class="form-control" required>
         </div>
-
         <div class="mb-3">
-          <label for="kelas_id" class="form-label">Kelas</label>
-          <select name="kelas_id" class="form-select" required>
-            <option value="">-- Pilih Kelas --</option>
-            @foreach($kelas as $kls)
-              <option value="{{ $kls->id }}" {{ $siswa->kelas_id == $kls->id ? 'selected' : '' }}>{{ $kls->nama }}</option>
+          <label for="editKelas" class="form-label">Kelas</label>
+          <select id="editKelas" class="form-select" required>
+            @foreach ($kelas as $kls)
+              <option value="{{ $kls->id }}">{{ $kls->nama }}</option>
             @endforeach
           </select>
         </div>
-
+      </div>
+      <div class="modal-footer">
         <button type="submit" class="btn btn-warning">Update</button>
-        <a href="{{ route('siswa.index') }}" class="btn btn-secondary">Kembali</a>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </div>
-@endsection
