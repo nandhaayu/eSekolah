@@ -1,5 +1,6 @@
 import './bootstrap';
-new bootstrap.Modal(document.getElementById('guruModal'))
+import 'bootstrap';
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById('formTambahGuru');
