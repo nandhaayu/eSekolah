@@ -22,51 +22,37 @@ class KelasController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'nama' => 'required|string|max:255',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+        $kelas = Kelas::create($request->only('nama'));
+
+        if ($request->ajax()) {
+            return response()->json(['message' => 'Data kelas berhasil ditambahkan.', 'data' => $kelas]);
         }
 
-        $kelas = Kelas::create([
-            'nama' => $request->nama,
-        ]);
-
-        return response()->json([
-            'message' => 'Data kelas berhasil ditambahkan.',
-            'data' => $kelas,
-        ], 201);
+        return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil ditambahkan!');
     }
 
     public function edit($id)
     {
         $kelas = Kelas::findOrFail($id);
-        return view('kelas.edit', compact('kelas'));
+        return response()->json(['kelas' => $kelas]);
     }
 
     public function update(Request $request, $id)
     {
-        $kelas = Kelas::findOrFail($id);
-
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'nama' => 'required|string|max:255',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        $kelas = Kelas::findOrFail($id);
+        $kelas->nama = $request->nama;
+        $kelas->save();
 
-        $kelas->update([
-            'nama' => $request->nama,
-        ]);
-
-        return response()->json([
-            'message' => 'Data kelas berhasil diperbarui.',
-            'data' => $kelas,
-        ]);
-}
+        return response()->json(['message' => 'Data kelas berhasil diperbarui']);
+    }
 
     public function show($id)
     {
