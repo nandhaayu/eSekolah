@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Guru;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GuruController extends Controller
 {
@@ -12,7 +13,8 @@ class GuruController extends Controller
     public function index()
     {
         $gurus = Guru::with('kelas')->get();
-        return view('guru.index', compact('gurus'));
+        $kelas = Kelas::all();
+        return view('guru.index', compact('gurus', 'kelas'));
     }
 
     // Form tambah guru
@@ -31,16 +33,23 @@ class GuruController extends Controller
             'kelas_id' => 'required|exists:kelas,id',
         ]);
 
-        Guru::create($request->all());
+        $guru = Guru::create([
+            'nama' => $request->nama,
+            'nip' => $request->nip,
+            'kelas_id' => $request->kelas_id,
+        ]);
 
-        return redirect()->route('guru.index')->with('success', 'Data guru berhasil ditambahkan.');
+        return response()->json([
+            'message' => 'Data guru berhasil ditambahkan.',
+            'data' => $guru
+        ]);
     }
 
-    // Tampilkan detail (opsional)
+    // Tampilkan detail
     public function show($id)
     {
         $guru = Guru::with('kelas')->findOrFail($id);
-        return view('guru.show', compact('guru'));
+        return response()->json($guru);
     }
 
     // Form edit guru
@@ -48,22 +57,34 @@ class GuruController extends Controller
     {
         $guru = Guru::findOrFail($id);
         $kelas = Kelas::all();
-        return view('guru.edit', compact('guru', 'kelas'));
+
+        return response()->json([
+        'guru' => $guru,
+        'kelas' => $kelas
+        ]);
     }
 
     // Update guru
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $guru = Guru::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
             'nip' => 'required|string|unique:gurus,nip,' . $id,
             'kelas_id' => 'required|exists:kelas,id',
         ]);
 
-        $guru = Guru::findOrFail($id);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         $guru->update($request->all());
 
-        return redirect()->route('guru.index')->with('success', 'Data guru berhasil diperbarui.');
+        return response()->json([
+            'message' => 'Data guru berhasil diperbarui.',
+            'data' => $guru
+        ]);
     }
 
     // Hapus guru
@@ -72,6 +93,6 @@ class GuruController extends Controller
         $guru = Guru::findOrFail($id);
         $guru->delete();
 
-        return redirect()->route('guru.index')->with('success', 'Data guru berhasil dihapus.');
+        return response()->json(['message' => 'Data guru berhasil dihapus.']);
     }
 }

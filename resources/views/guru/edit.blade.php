@@ -1,39 +1,36 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container-fluid">
-  <div class="card">
-    <div class="card-header fw-semibold">Edit Data Guru</div>
-    <div class="card-body">
-      <form action="{{ route('guru.update', $guru->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <div class="mb-3">
-          <label for="nama" class="form-label">Nama Guru</label>
-          <input type="text" name="nama" class="form-control" value="{{ old('nama', $guru->nama) }}" required>
+<div class="modal fade" id="editGuruModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="formEditGuru">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Data Guru</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
         </div>
-
-        <div class="mb-3">
-          <label for="nip" class="form-label">NIP</label>
-          <input type="text" name="nip" class="form-control" value="{{ old('nip', $guru->nip) }}" required>
+        <div class="modal-body">
+          <input type="hidden" id="editId">
+          <div class="mb-3">
+            <label for="editNama" class="form-label">Nama</label>
+            <input type="text" id="editNama" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="editNip" class="form-label">NIP</label>
+            <input type="text" id="editNip" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="editKelas" class="form-label">Kelas</label>
+            <select id="editKelas" class="form-select" required>
+              <option value="">-- Pilih Kelas --</option>
+              @foreach($kelas as $kls)
+                <option value="{{ $kls->id }}">{{ $kls->nama }}</option>
+              @endforeach
+            </select>
+          </div>
         </div>
-
-        <div class="mb-3">
-          <label for="kelas_id" class="form-label">Kelas</label>
-          <select name="kelas_id" class="form-select" required>
-            <option value="">-- Pilih Kelas --</option>
-            @foreach ($kelas as $kls)
-              <option value="{{ $kls->id }}" {{ $guru->kelas_id == $kls->id ? 'selected' : '' }}>
-                {{ $kls->nama }}
-              </option>
-            @endforeach
-          </select>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-warning">Update</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
         </div>
-
-        <button type="submit" class="btn btn-warning">Update</button>
-        <a href="{{ route('guru.index') }}" class="btn btn-secondary">Kembali</a>
       </form>
     </div>
   </div>
 </div>
-@endsection
