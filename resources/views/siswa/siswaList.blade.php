@@ -5,11 +5,11 @@
   <div class="card">
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h5 class="card-title fw-semibold">Data Guru Berdasarkan Kelas</h5>
+        <h5 class="card-title fw-semibold">Data Siswa Berdasarkan Kelas</h5>
       </div>
 
       <div class="table-responsive">
-        <table class="table table-bordered mt-4" id="gurus">
+        <table class="table table-bordered mt-4" id="siswas">
           <tbody>
           </tbody>
         </table>
@@ -24,11 +24,11 @@
 <script>
   $(document).ready(function () {
     $.ajax({
-      url: "{{ route('guru.gurus') }}",
+      url: "{{ route('siswa.siswas') }}",
       method: 'GET',
       dataType: 'json',
       success: function (data) {
-        let tableBody = $('#gurus tbody');
+        let tableBody = $('#siswas tbody');
         tableBody.empty();
 
         $.each(data, function (index, kelas) {
@@ -39,15 +39,15 @@
           `);
           tableBody.append(`
             <tr class="table-secondary">
-              <th>Nama Guru</th>
-              <th>NIP</th>
+              <th>Nama Siswa</th>
+              <th>NIS</th>
             </tr>
           `);
-          $.each(kelas.gurus, function (i, guru) {
+          $.each(kelas.siswas, function (i, siswa) {
             let row = `
               <tr>
-                <td>${guru.nama}</td>
-                <td>${guru.nip}</td>
+                <td>${siswa.nama}</td>
+                <td>${siswa.nis}</td>
               </tr>
             `;
             tableBody.append(row);

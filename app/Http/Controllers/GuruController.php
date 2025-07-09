@@ -24,7 +24,7 @@ class GuruController extends Controller
         return view('guru.create', compact('kelas'));
     }
     
-    public function guruList(Request $request)
+    public function gurus(Request $request)
     {
         $kelasId = $request->kelas_id;
         $guruList = Kelas::with(['gurus' => function ($q){
@@ -32,7 +32,14 @@ class GuruController extends Controller
         }])
         ->when($kelasId, fn($q)=> $q->where('id', $kelasId))
         ->get();
-        return view('guru.guruList', compact('guruList'));
+        return response()->json($guruList);
+    }
+
+    public function guruList()
+    {
+        $gurus = Guru::with('kelas')->get();
+        $kelas = Kelas::all();
+        return view('guru.guruList', compact('gurus', 'kelas'));
     }
 
     // Simpan guru baru

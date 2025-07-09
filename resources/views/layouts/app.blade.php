@@ -57,8 +57,18 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-1" href="{{ route('siswa.siswaList') }}">
+                                    <i class="fa-solid fa-users text-dark"></i> <span class="text-dark">Siswa List</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center gap-1" href="{{ route('guru.guruList') }}">
-                                    <i class="fa-solid fa-person-chalkboard text-dark"></i> <span class="text-dark">Guru Berdasarkan Kelas</span>
+                                    <i class="fa-solid fa-person-chalkboard text-dark"></i> <span class="text-dark">Guru List</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-1" href="{{ route('semuaData') }}">
+                                    <i class="fa-solid fa-globe text-dark"></i> <span class="text-dark">Data Keseluruhan</span>
                                 </a>
                             </li>
                         @endauth

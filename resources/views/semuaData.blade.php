@@ -5,11 +5,19 @@
   <div class="card">
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h5 class="card-title fw-semibold">Data Guru Berdasarkan Kelas</h5>
+        <h5 class="card-title fw-semibold">Data Keseluruhan</h5>
       </div>
 
       <div class="table-responsive">
-        <table class="table table-bordered mt-4" id="gurus">
+        <table class="table table-bordered mt-4" id="dataList">
+            <thead class="table-secondary">
+            <tr>
+              <th>Nama Siswa</th>
+              <th>NIS</th>
+              <th>Nama Kelas</th>
+              <th>Nama Guru</th>
+            </tr>
+          </thead>
           <tbody>
           </tbody>
         </table>
@@ -24,30 +32,23 @@
 <script>
   $(document).ready(function () {
     $.ajax({
-      url: "{{ route('guru.gurus') }}",
+      url: "{{ route('dataList') }}",
       method: 'GET',
       dataType: 'json',
       success: function (data) {
-        let tableBody = $('#gurus tbody');
+        let tableBody = $('#dataList tbody');
         tableBody.empty();
 
         $.each(data, function (index, kelas) {
-          tableBody.append(`
-            <tr class="bg-light mb-3">
-              <td colspan="2" class="fw-bold text-uppercase"> ${kelas.nama}</td>
-            </tr>
-          `);
-          tableBody.append(`
-            <tr class="table-secondary">
-              <th>Nama Guru</th>
-              <th>NIP</th>
-            </tr>
-          `);
-          $.each(kelas.gurus, function (i, guru) {
+        
+          $.each(kelas.siswas, function (i, siswa) {
+            const guru = (kelas.gurus.length > 0) ? kelas.gurus[0].nama : 'Belum ada guru';
             let row = `
               <tr>
-                <td>${guru.nama}</td>
-                <td>${guru.nip}</td>
+                <td>${siswa.nama}</td>
+                <td>${siswa.nis}</td>
+                <td>${kelas.nama}</td>
+                <td>${guru}</td>
               </tr>
             `;
             tableBody.append(row);

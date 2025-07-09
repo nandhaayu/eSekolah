@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Siswa;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class SiswaController extends Controller
 {
@@ -74,5 +75,24 @@ class SiswaController extends Controller
         return response()->json([
             'message' => 'Data siswa berhasil dihapus.'
         ]);
+    }
+
+    public function siswas(Request $request)
+    {
+        $kelasId = $request->kelas_id;
+        $siswaList = Kelas::with(['siswas' => function ($q){
+            $q->orderBy('nama');
+        }])
+        ->when($kelasId, fn($q)=> $q->where('id', $kelasId))
+        ->get();
+        return Response::json($siswaList);
+        return view('siswa.siswaList', compact('siswaList'));
+    }
+
+    public function siswaList()
+    {
+        $siswas = Siswa::with('kelas')->get();
+        $kelas = Kelas::all(); 
+        return view('siswa.siswaList', compact('siswas', 'kelas'));
     }
 }

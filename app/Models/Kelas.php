@@ -17,7 +17,6 @@ class Kelas extends Model
         return $this->hasMany(Siswa::class);
     }
 
-    // Relasi ke guru
     public function gurus()
     {
         return $this->hasMany(Guru::class);
