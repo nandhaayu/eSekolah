@@ -56,6 +56,11 @@
                                     <i class="fas fa-chalkboard-teacher text-dark"></i> <span class="text-dark">Guru</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-1" href="{{ route('guru.guruList') }}">
+                                    <i class="fa-solid fa-person-chalkboard text-dark"></i> <span class="text-dark">Guru Berdasarkan Kelas</span>
+                                </a>
+                            </li>
                         @endauth
                     </ul>
 

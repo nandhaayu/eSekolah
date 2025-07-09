@@ -23,6 +23,17 @@ class GuruController extends Controller
         $kelas = Kelas::all();
         return view('guru.create', compact('kelas'));
     }
+    
+    public function guruList(Request $request)
+    {
+        $kelasId = $request->kelas_id;
+        $guruList = Kelas::with(['gurus' => function ($q){
+            $q->orderBy('nama');
+        }])
+        ->when($kelasId, fn($q)=> $q->where('id', $kelasId))
+        ->get();
+        return view('guru.guruList', compact('guruList'));
+    }
 
     // Simpan guru baru
     public function store(Request $request)

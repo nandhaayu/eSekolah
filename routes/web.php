@@ -17,4 +17,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('siswa', SiswaController::class);
     Route::resource('guru', GuruController::class);
     Route::resource('kelas', KelasController::class);
+    Route::get('/guruList', [GuruController::class, 'guruList'])->name('guru.guruList');
 });
