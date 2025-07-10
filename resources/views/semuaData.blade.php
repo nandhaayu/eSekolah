@@ -42,7 +42,10 @@
         $.each(data, function (index, kelas) {
           const jmlhSiswa=kelas.siswas.length;
           $.each(kelas.siswas, function (i, siswa) {
-            const guru = (kelas.gurus.length > 0) ? kelas.gurus[0].nama : 'Belum ada guru';
+            let guru = 'Belum ada guru';
+            if (Array.isArray(kelas.gurus) && kelas.gurus.length > 0) {
+              guru = kelas.gurus.map(g => g.nama).join(', ');
+            }
             let row = '<tr>';
               if(i === 0) {
                 row += `<td rowspan="${jmlhSiswa}">${kelas.nama}</td>`
