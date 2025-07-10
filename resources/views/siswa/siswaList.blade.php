@@ -30,26 +30,24 @@
       success: function (data) {
         let tableBody = $('#siswas tbody');
         tableBody.empty();
-
-        $.each(data, function (index, kelas) {
-          tableBody.append(`
-            <tr class="bg-light mb-3">
-              <td colspan="2" class="fw-bold text-uppercase"> ${kelas.nama}</td>
-            </tr>
-          `);
-          tableBody.append(`
+        tableBody.append(`
             <tr class="table-secondary">
+              <th>Nama Kelas</th>
               <th>Nama Siswa</th>
               <th>NIS</th>
             </tr>
           `);
+        $.each(data, function (index, kelas) {
+          const jmlhSiswa = kelas.siswas.length;
           $.each(kelas.siswas, function (i, siswa) {
-            let row = `
-              <tr>
-                <td>${siswa.nama}</td>
+            let row =
+              '<tr>';
+                if (i === 0) {
+                row += `<td rowspan="${jmlhSiswa}">${kelas.nama}</td>`};
+                
+                row += `<td>${siswa.nama}</td>
                 <td>${siswa.nis}</td>
-              </tr>
-            `;
+              </tr>`;
             tableBody.append(row);
           });
         });

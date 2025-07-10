@@ -12,9 +12,9 @@
         <table class="table table-bordered mt-4" id="dataList">
             <thead class="table-secondary">
             <tr>
+              <th>Nama Kelas</th>
               <th>Nama Siswa</th>
               <th>NIS</th>
-              <th>Nama Kelas</th>
               <th>Nama Guru</th>
             </tr>
           </thead>
@@ -40,17 +40,17 @@
         tableBody.empty();
 
         $.each(data, function (index, kelas) {
-        
+          const jmlhSiswa=kelas.siswas.length;
           $.each(kelas.siswas, function (i, siswa) {
             const guru = (kelas.gurus.length > 0) ? kelas.gurus[0].nama : 'Belum ada guru';
-            let row = `
-              <tr>
-                <td>${siswa.nama}</td>
-                <td>${siswa.nis}</td>
-                <td>${kelas.nama}</td>
-                <td>${guru}</td>
-              </tr>
-            `;
+            let row = '<tr>';
+              if(i === 0) {
+                row += `<td rowspan="${jmlhSiswa}">${kelas.nama}</td>`
+              };
+              row += `
+              <td>${siswa.nama}</td>
+              <td>${siswa.nis}</td>
+              <td>${guru}</td>`
             tableBody.append(row);
           });
         });
